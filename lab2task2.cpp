@@ -12,6 +12,7 @@ using namespace std;
 atomic <int> atomic_counter(0);
 const int TaskNum =  1024;
 uint8_t Tasks[TaskNum];
+const int QueueSize[3] = { 1, 4, 16 };
 
 int total = 0;
 
@@ -19,31 +20,32 @@ int increment() {
     return atomic_counter++;
 }
 
-class queue1
+// динамическая очередь
+class queue1 
 {
 private:
-    mutex g_lock;
+    mutex mutex;
     queue <uint8_t> q;
 public:
     void push(uint8_t val) {
-        g_lock.lock();
+        mutex.lock();
         q.push(val);
-        g_lock.unlock();
+        mutex.unlock();
     }
     bool pop(uint8_t& val) {
-        g_lock.lock();
-        if (q.empty() == true) {
-            g_lock.unlock();
-            this_thread::sleep_for(chrono::milliseconds(1));
-            g_lock.lock();
-            if (q.empty() == true) {
-                g_lock.unlock();
+        mutex.lock(); 
+        if (q.empty() == true) { 
+            mutex.unlock();
+            this_thread::sleep_for(chrono::milliseconds(1)); 
+            mutex.lock();
+            if (q.empty() == true) {  
+                mutex.unlock();
                 return false;
             }
         }
-        val = q.front();
+        val = q.front(); 
         q.pop();
-        g_lock.unlock();
+        mutex.unlock(); 
         return true;
     }
     bool isempty() {
@@ -51,11 +53,12 @@ public:
     }
 };
 
+// очередь фикс.размера
 class queue2
 {
 private:
     uint8_t QueueSize = 1;
-    mutex g_lock;
+    mutex mutex1;
     condition_variable cv;
     queue <uint8_t> q;
     bool ready = true;
@@ -64,16 +67,16 @@ public:
         QueueSize = size;
     }
     void push(uint8_t val) {
-        unique_lock<mutex> ulock(g_lock);
+        unique_lock<mutex> ulock(mutex1);
         while (q.size() >= QueueSize) {
-            cv.wait(ulock);
+            cv.wait(ulock); 
         }
-        q.push(val);
+        q.push(val); 
         ulock.unlock();
         cv.notify_one();
     }
     bool pop(uint8_t& val) {
-        unique_lock<mutex> ulock(g_lock);
+        unique_lock<mutex> ulock(mutex1);
         if (q.empty() == true) {
             cv.wait_for(ulock, chrono::milliseconds(1));
             if (q.empty() == true) {
@@ -96,7 +99,7 @@ void producer_func(bool queue) {
     clock_t start = clock();
     for (int i = 0; i < TaskNum; i++) {
         if (queue) {
-            q2.push(Tasks[i]);
+            q2.push(Tasks[i]); // записываем TaskNum едниниц в очередь
         }
         else {
             q1.push(Tasks[i]);
@@ -116,7 +119,7 @@ void consumer_func(int ProducerNum, bool queue)
     while (temp < TaskNum * ProducerNum) {
         temp = atomic_counter.load();
         if (queue) {
-            if (q2.pop(num)) {
+            if (q2.pop(num)) { // достаем значения из очереди
                 increment();
                 value++;
             }
@@ -134,17 +137,21 @@ void consumer_func(int ProducerNum, bool queue)
     printf("Time in consumer thread: %d ms\n", time);
 }
 
-void task1() {
-    cout << "Task 1\n\n";
+void task(bool task) {
+    if (task)
+        cout << "Task 2: fixed size queue\n\n";
+    else
+        cout << "Task 1: dynamic queue\n\n";
+
     const int ConsProdNum[3] = { 1, 2, 4 };
     for (int i = 0; i < 3; i++) {
-        cout << "Size of consumers, producers: " << ConsProdNum[i] << endl;    
+        cout << "Size of consumers/producers: " << ConsProdNum[i] << endl;    
         total = 0;   
         thread* consumer = new thread[ConsProdNum[i]];
         thread* producer = new thread[ConsProdNum[i]];
         for (int k = 0; k < ConsProdNum[i]; k++) {
-             producer[k] = thread(producer_func, false);
-             consumer[k] = thread(consumer_func, ConsProdNum[i], false);
+             producer[k] = thread(producer_func, task);
+             consumer[k] = thread(consumer_func, ConsProdNum[i], task);
         }
         for (int k = 0; k < ConsProdNum[i]; k++) {
              producer[k].join();
@@ -160,41 +167,13 @@ void task1() {
     }
 }
 
-void task2() {
-    cout << "Task 2\n\n";  
-    const int ConsProdNum[3] = { 1, 2, 4 };
-    const int QueueSize[3] = { 1, 4, 16 };
-
+int main()
+{
+    task(false);
+    cout << "--------------------------------\n";
     for (int i = 0; i < 3; i++) {
         q2.setSize(QueueSize[i]);
         cout << "Queue size: " << QueueSize[i] << endl;
-        for (int j = 0; j < 3; j++) {
-            total = 0;
-            cout << "Size of consumers, producers: " << ConsProdNum[j] << endl;
-            thread* consumer = new thread[ConsProdNum[j]];
-            thread* producer = new thread[ConsProdNum[j]];
-            for (int k = 0; k < ConsProdNum[j]; k++) {
-                producer[k] = thread(producer_func, true);
-                consumer[k] = thread(consumer_func, ConsProdNum[j], true);
-            }
-            for (int k = 0; k < ConsProdNum[j]; k++) {
-                producer[k].join();
-                consumer[k].join();
-            }
-            cout << "Total sum: " << total / ConsProdNum[j];
-            if (total == TaskNum * ConsProdNum[j]) {
-                cout << "\nCORRECT\n\n";
-            }
-            else cout << "\nNOT CORRECT\n\n";
-            atomic_counter.store(0);
-            delete[] consumer, producer;
-        }
+        task(true);
     }
-}
-
-int main()
-{
-    task1();
-    cout << "--------------------------------\n";
-    task2();
 }
