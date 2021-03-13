@@ -1,0 +1,313 @@
+body{
+    margin: 0px auto;
+}
+main{
+    background: #CCCCCC;
+    height: 1368px;
+}
+.container{
+    background-image: url('assets/background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #02160b;
+    height: 780px;
+    background-size: cover;
+}
+h1{
+    font-family: Roboto;
+    color: #F7F7F7;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 187%;
+    margin: 0px;
+    margin-left: 15px;
+}
+.section h2{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    letter-spacing: 2px;
+    color: #CD6326; 
+    line-height: 150%;
+    margin: 0 0 51px 0;
+}
+main h2{
+    margin: 0px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    text-align: center;
+    line-height: 150%;
+    color: #333333;
+}
+main h3{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 150%;
+    font-size: 24px;
+    text-align: center;
+    color: #666666;
+    margin-top: 20px;
+}
+h4{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 164%;
+    text-align: center;
+    color: #F7F7F7;
+}
+.img-description{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 159%;
+    text-align: center;
+    color: #F7F7F7;
+}
+.section p{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 150%;
+    color: #F7F7F7;
+    width: 274px;
+    margin: 0 0 49px 0;
+}
+
+li a{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #F7F7F7;
+    text-decoration: none;
+    line-height: 261%;
+}
+li{
+    list-style-type: none;
+}
+header button, .section button{
+    background: transparent;
+    border: 2px solid #CD6326;
+    border-radius: 5px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #F7F7F7;
+    width:120px;
+    height: 50px;
+    line-height: 117%;
+    outline-style: none;
+}
+.section button{
+    width: 160px;
+    height: 60px;
+    background-color: #CD6326;
+    border: none;
+}
+ul{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+header li:not(:last-child){
+    margin-right: 65.5px;
+}
+.wrapper li:nth-child(3){
+    height: 53px;
+}
+header{
+    margin: 0 auto;
+}
+.wrapper{
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding-top: 19px;
+}
+.logo{
+    display: flex;
+    align-self: center;
+}
+.section{
+    margin: 120px auto 0 auto;
+    max-width: 1200px;
+}
+.gallery-descr{
+    padding-top: 120px;
+}
+.gallery{
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-between;
+    margin: 120px auto 0 auto;
+    max-width: 1200px;
+}
+.left-button{
+    margin-left: 1px;
+    width: 30px;
+    height: 40px;
+    background: transparent no-repeat url('assets/left-button.svg');
+    border: none;
+    outline-style: none;
+}
+.right-button{
+    width: 30px;
+    margin-right: 1px;
+    height: 40px;
+    background: transparent no-repeat url('assets/right-button.svg');
+    border: none;
+    outline-style: none;
+}
+.footer{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+footer{
+    background: url('assets/footer-bg.jpg') center no-repeat;
+    height:359px;
+    background-color: #181617;
+}
+.footer-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 150px;
+    flex-wrap: wrap;
+}
+.item-descr{
+    position: absolute;
+    bottom: 0;
+    left:0;
+    right: 0;
+}
+.item-descr p{
+    margin-bottom: 44px;
+    margin-top: 10px;
+}
+.item-descr h4{
+    margin:0;
+}
+.item{
+    position: relative;
+}
+.form h3{
+    margin-top: 236px;
+    margin-bottom: 59px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 27px;
+    line-height: 150%;
+    text-align: center;
+    color: #333333;
+}
+form{
+    display: flex;
+    justify-content: center;
+
+}
+input[type='submit']{
+    width: 121.5px;
+    height: 61.7px;
+    background: #CD6326;
+    border-radius: 0px 5px 5px 0px;
+    border:none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 117%;
+    color: #F7F7F7;
+    outline: none;
+}
+input[type='email']{
+    width: 524px;
+    height: 59.6px;
+    background: transparent;
+    padding-left: 15px !important;
+    border:solid 1px #666666;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    line-height: 117%;
+    color: #666666;
+    padding: 0px;
+
+}
+.logo-footer{
+    display: flex;
+    align-self: center;
+}
+address a{
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+.fb{
+    background: center no-repeat url('assets/fb.svg');
+}
+.ig{
+    background: url('assets/ig.svg');
+}
+.pinterest{
+    background: url('assets/pinterest.svg');
+}
+.tg{
+    background: url('assets/tg.svg');
+}
+footer nav ul{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 14px;
+}
+address{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+address li:not(:last-child){
+    margin-right: 27px;
+}
+footer nav li:not(:last-child){
+    margin-right: 88px;
+}
+header nav a:hover, footer nav a:hover{
+    color: #CD6326;
+}
+header nav a img:hover, .left-button:hover, .right-button:hover, .tg:hover,.ig:hover,.pinterest:hover,.fb:hover{
+    transition: 0.6s;
+    transform: scale(1.5);
+}
+header nav button:hover{
+    color:#F7F7F7 ;
+    background-color: #CD6326;
+}
+.section button:hover, input[type='submit']:hover{
+    background-color: #E39128
+}
+.section button:active, input[type='submit']:active{
+    background-color: #8F5613;
+}
+.logo h1:hover,.logo img:hover, .logo-footer img:hover, .logo-footer h1:hover{
+    transition: 0.5s;
+    transform: scale(1.2);
+}
